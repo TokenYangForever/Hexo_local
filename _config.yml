@@ -5,10 +5,11 @@
 # Site
 title: 唐洋洋的个人博客
 subtitle: \(^o^)/~
-description: 放点随笔文章，与[简书](http://www.jianshu.com/u/22bd593f7254)同步
+description: 放点随笔文章
 author: TokenYangForever
 language: zh-Hans
 timezone:
+avatar: /images/avatar.jpg
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'

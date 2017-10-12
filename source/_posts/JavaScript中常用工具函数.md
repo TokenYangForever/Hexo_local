@@ -1,4 +1,4 @@
-title: javascript常用工具函数总结(不定期补充)
+title: javascript常用工具函数总结
 tags:
   - JavaScript
   - 总结
@@ -274,5 +274,82 @@ function isNative (Ctor) {
   }
 ```
 * 依次传入两个点的经纬度，然后计算得出两个点的距离，单位为km。这个方法可能实际应用的比较少，我这里还是写出来，作为一种前端计算距离的方法(在能拿得到定位的情况下)。
+##### 12. 加载图片(promise封装)
+```
+/**
+   * 传入图片url，返回一个promise对象，加载成功时resolve
+   * @return {Promise} 
+   * @example
+   * loadImg(url).then(console.log('加载完成')).catch(err => {console.log(err)})
+   */
+  function loadImg (url) {
+    return new Promise((resolve, reject) => {
+      let img = new Image()
+
+      img.addEventListener('load', function() {
+        resolve([img.width, img.height])
+      }, false)
+
+      img.addEventListener('error', reject, false)
+
+      img.src = url
+    })
+  }
+ ```
+* 这个函数参考自ECMAScript 6 入门，算是promise的一个很经典的应用实例，加载完成后promise对象resolve，同时返回图片的宽高，以便后面调整样式等等。加载失败则返回reject，所以再调用这个方法后需要用catch方法来捕捉异常。
+##### 13. 重复字符串n次
+```
+/**
+   * 传入字符串，和重复次数，返回结果字符串
+   * @return {string} 
+   * @param{string, number} str n 
+   * @example
+   * loadImg(url).then(console.log('加载完成')).catch(err => {console.log(err)})
+   */
+  const repeat = (str, n) => {
+    let res = ''
+    while (n) {
+      if (n % 2 === 1) res += str
+      if (n > 1) str += str
+      n >>= 1
+    }
+    return res
+  }
+```
+* 这个函数在vue源码里看到的，用到了位运算符，如果让我来实现的话可能就马上想到重复n次，而上面这个函数执行时的时间复杂度差不多只是n/2。
+##### 14. 变量是否以'$'或者'_'开头
+```
+/**
+   * 传入字符串，判断是否以'$'或者'_'开头
+   * @return {Boolean} 
+   * @param{string} str
+   * @example
+   * isReserved (‘$’)  isReserved (‘param’)
+   */
+function isReserved (str) {
+  var c = (str + '').charCodeAt(0);
+  return c === 0x24 || c === 0x5F
+}
+```
+* 同样是vue源码里的方法，判断变量是否以'$'或者'_'开头，charCodeAt(index)方法会返回字符串对应index位置的字符的Unicode编码，'$'对应的Unicode编码就是36，这里用的是十六进制表示方法就是0x24。要判断变量名以什么字符开头或结尾，将上面方法略微修改即可实现。
+* ps：vue中哪里用到这个方法了呢，我去看了下就是在初始化vue实例的data对象时会判断，如果你的vue实例data里面命名了以'$'或者'_'的对象，是不会把这个属性重新定义其get/set的。简单点说，如果你在vue的data里定义一个命名为$data的属性，再在模板里渲染{{$data}}，就会报错的。
+##### 15. promise扩展-finally
+```
+/**
+   * 在一个promise链调用结尾调用finally，传入一个函数，无论最后promise的状态是什么总会执行该函数
+   * @param{function} callback
+   * @example
+   *  server.listen(0).then(function () { // run test }).finally(server.stop);
+   */
+Promise.prototype.finally = function (callback) {
+  let P = this.constructor;
+  return this.then(
+    value  => P.resolve(callback()).then(() => value).catch(e => {console.error(e)}),
+    reason => P.resolve(callback()).then(() => { throw reason }).catch(e => {console.error(e)})
+  );
+};
+```
+* 参考自[ECMAScript 6 入门](http://es6.ruanyifeng.com/?search=find&x=0&y=0)，对于promise对象的一个扩展方法，不论前面的promise状态是什么总会调用callback函数。
+* 我在原代码的基础上添加了新的catch，用于兼容callback执行时返回了一个状态为reject的promise的情况。
 #### 结语
-* 再次补充，以后写得多了再考虑分个类或者加个目录导航什么的。
+* 再次补充，已搬运到[github博客](https://tokenyangforever.github.io/2017/09/12/JavaScript%E4%B8%AD%E5%B8%B8%E7%94%A8%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0/)，上面自带导航~~~
