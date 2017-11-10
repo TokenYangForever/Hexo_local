@@ -3,7 +3,7 @@ tags:
   - JavaScript
   - 算法
 categories:
-  - JavaScript
+  - leetcode算法题
 author: Token
 date: 2017-09-15 13:36:00
 ---

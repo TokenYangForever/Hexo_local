@@ -2,7 +2,9 @@ title: javascript常用工具函数总结
 tags:
   - JavaScript
   - 总结
-categories: []
+categories:
+  - JavaScript
+  - 总结
 author: Token
 date: 2017-09-12 16:18:00
 ---

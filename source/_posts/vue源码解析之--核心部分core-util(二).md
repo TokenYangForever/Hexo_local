@@ -1,9 +1,10 @@
 title: vue源码解析之--核心部分core-util(二)
 tags:
-  - vue
   - 框架源码
   - JavaScript
-categories: []
+categories:
+  - JavaScript
+  - vue
 author: Token
 date: 2017-09-15 13:36:00
 ---

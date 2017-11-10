@@ -1,4 +1,8 @@
 title: apply与call性能分析
+tags:
+  - JavaScript
+categories:
+  - JavaScript
 date: 2017-09-15 13:53:21
 ---
 

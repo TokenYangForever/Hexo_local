@@ -4,7 +4,8 @@ tags:
   - 服务端渲染
   - vue
   - node
-categories: []
+categories:
+  - 服务端渲染
 author: Token
 date: 2017-09-15 13:36:00
 ---

@@ -1,9 +1,10 @@
 title: 从几个关键词来理解http缓存
 author: TokenYangForever
 tags:
-  - http
+  - http缓存
   - html
-categories: []
+categories:
+  - http
 date: 2017-09-27 15:19:00
 ---
 #### 前言

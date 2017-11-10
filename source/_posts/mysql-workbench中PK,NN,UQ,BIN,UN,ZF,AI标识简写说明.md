@@ -3,6 +3,7 @@ tags:
   - mysql
 categories:
   - 后端
+  - 备忘录
 author: Token
 date: 2017-09-15 13:36:00
 ---

@@ -4,7 +4,7 @@ tags:
   - JavaScript
   - 算法
 categories:
-  - JavaScript
+  - leetcode算法题
 date: 2017-09-14 11:35:00
 ---
 #### 前言
