@@ -12,7 +12,7 @@ date: 2017-11-10 15:41:00
 * 最近开始做小程序，通读一遍文档再上手并不算难，但不得不说小程序里还是有一些坑。这里说一下如何实现页面锚点跳转，一个城市列表的效果示意图如下：
 ![city.gif](http://upload-images.jianshu.io/upload_images/6383319-104bb55559f4a26b.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 * 因为在微信小程序的环境中不能想在浏览器里设置标签，或者操作dom滚动，传统做法就行不通了，一切都得按小程序的文档来。
-* 一开始我们的做法是使用**boundingClientRect()方法获取每个锚点的坐标**，然后再用wx.pageScrollTo()方法滑动过去。结果发现行不通，因为boundingClientRect方法返回的每个点的坐标会随着屏幕滑动而变化，**最后还是选择[scroll-view(可滚动视图区域)](https://mp.weixin.qq.com/debug/wxadoc/dev/component/scroll-view.html)
+* 一开始我们的做法是使用**boundingClientRect()方法获取每个锚点的坐标**，然后再用wx.pageScrollTo()方法滑动过去。结果发现效果不是很好，因为boundingClientRect方法返回的每个点的坐标会随着屏幕滑动而变化，可能还会引起页面抖动，**最后还是选择[scroll-view(可滚动视图区域)](https://mp.weixin.qq.com/debug/wxadoc/dev/component/scroll-view.html)
 组件来实现锚点效果。**
 ### 具体实现
 * 具体API就不赘述了，可以去看官方文档，这里讲几个需要注意的地方，下面是一个示意的scroll-view组件代码，上面的几个属性是必须的：
@@ -33,4 +33,7 @@ date: 2017-11-10 15:41:00
 	color: transparent;
 }
 ```
-* 还有就是点了一个锚点实现了跳转，这个时候你滚动页面再点之前点的锚点，页面就不会再跳转了，这个时候就需要监听滚动事件，滚动时将scroll-into-view的值清空。
+* 还有就是点了一个锚点实现了跳转，这个时候你滚动页面再点之前点的锚点，页面就不会再跳转了，这个时候就需要监听滚动事件，滚动时将scroll-into-view属性的值清空。或者在每次锚点跳转后，再由一个异步操作将scroll-into-view属性的值清空。
+#### 2017/12/05补充:
+* scroll-view默认是无滑动动画的，需要滚动的动画效果需要在组件上设置：**scroll-with-animation='true'**
+* 关于固定高度height的设置问题，一开始我以为这个高度和滚动元素的数目/高度有关，这个时候处理动态变化的列表就很麻烦。后面在网上看到的一个方法就是使用**wx.getSystemInfo**方法得到windowHeight，把这个设置为scroll-view的高度(单位为px)即可。
